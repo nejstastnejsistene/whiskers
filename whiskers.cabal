@@ -14,7 +14,7 @@ cabal-version:       >=1.8
 library
   exposed-modules:     Text.Whiskers
   -- other-modules:       
-  build-depends:       base ==4.6.*, template-haskell ==2.8.*, parsec ==3.1.*
+  build-depends:       base >= 4.6 && < 4.8, template-haskell >= 2.8 && < 2.10, parsec == 3.1.*
 
 source-repository head
   type:     git
