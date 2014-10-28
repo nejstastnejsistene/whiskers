@@ -2,11 +2,16 @@
 
 import Text.Whiskers
 
--- Equivalent to:
--- hello = \x -> concat ["Hello, ", x, "!"]
-hello :: String -> String
-hello = [whiskers|Hello, {{ x }}!|]
-
--- Prints "Hello, world!"
 main :: IO ()
-main = putStrLn (hello "world")
+main = putStrLn [whiskers|
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Hello, {{ x }}!</title>
+    </head>
+    <body>
+        <h1>This is {{ y }}.</h1>
+    </body>
+</html>
+|] where x = "world"
+         y = "whiskers"
