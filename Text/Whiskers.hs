@@ -5,6 +5,7 @@ module Text.Whiskers (whiskers) where
 import Control.Applicative ((<*>))
 import Data.List
 import Data.Maybe
+import Data.String
 import Language.Haskell.TH
 import Language.Haskell.TH.Quote
 import Text.ParserCombinators.Parsec
@@ -22,7 +23,7 @@ parseWhiskers :: String -> ExpQ
 parseWhiskers s = either (error . show) buildExp (parse parser "(unknown)" s)
 
 buildExp :: [Token] -> ExpQ
-buildExp tokens = [| concat $chunks |]
+buildExp tokens = [| fromString (concat $chunks) |]
   where
     vars = nub [x | Var x <- tokens]
     env = [(x, findName x) | x <- vars]

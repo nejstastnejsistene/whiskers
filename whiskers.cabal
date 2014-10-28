@@ -1,5 +1,5 @@
 name:                whiskers
-version:             0.1.0.1
+version:             0.1.0.2
 description:         TODO
 synopsis:            Moustache templates with Template Haskell.
 license:             BSD3
