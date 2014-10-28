@@ -1,6 +1,6 @@
 {-# LANGUAGE TemplateHaskell #-}
 
-module Whiskers (whiskers) where
+module Text.Whiskers (whiskers) where
 
 import Data.List
 import Language.Haskell.TH

@@ -6,7 +6,7 @@ Moustache templates with Template Haskell.
 ```haskell
 {-# LANGUAGE QuasiQuotes #-}
 
-import Whiskers
+import Text.Whiskers
 
 -- Equivalent to:
 -- hello = \x -> concat ["Hello, ", x, "!"]
