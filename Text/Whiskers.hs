@@ -1,6 +1,6 @@
 {-# LANGUAGE TemplateHaskell #-}
 
-module Text.Whiskers (whiskers) where
+module Text.Whiskers (whiskers, whiskersFile) where
 
 import Control.Applicative ((<*>))
 import Data.List
@@ -18,6 +18,13 @@ whiskers = QuasiQuoter { quoteExp  = parseWhiskers
                        , quoteType = undefined
                        , quoteDec  = undefined
                        }
+
+whiskersFile :: QuasiQuoter
+whiskersFile = QuasiQuoter { quoteExp  = \s -> runIO (readFile s) >>= parseWhiskers
+                           , quotePat  = undefined
+                           , quoteType = undefined
+                           , quoteDec  = undefined
+                           }
 
 parseWhiskers :: String -> ExpQ
 parseWhiskers s = either (error . show) buildExp (parse parser "(unknown)" s)
@@ -38,19 +45,23 @@ tokenExp _   (Str x) = return . LitE $ StringL x
 tokenExp env (Var x) = fmap VarE $ fromJust (lookup x env)
 
 parser :: Parser [Token]
-parser = many1 (str <|> var)
+parser = many1 (str <|> var <|> brackets)
 
 str :: Parser Token
 str = fmap Str $ many1 (noneOf "{")
     
 var :: Parser Token
-var = do
-    char '{'
-    char '{'
+var = try $ do
+    string "{{"
     spaces
     x <- letter
     xs <- many alphaNum
     spaces
-    char '}'
-    char '}'
+    string "}}"
     return $ Var (x:xs)
+
+brackets :: Parser Token
+brackets = do
+    x <- char '{'
+    y <- try (noneOf "{")
+    return $ Str (x:[y])
