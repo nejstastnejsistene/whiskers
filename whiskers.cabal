@@ -1,7 +1,7 @@
 name:                whiskers
-version:             0.1.0.2
+version:             0.1.0.3
 description:         TODO
-synopsis:            Moustache templates with Template Haskell.
+synopsis:            Mustache templates with Template Haskell.
 license:             BSD3
 license-file:        LICENSE
 author:              Peter Johnson
@@ -18,4 +18,4 @@ library
 
 source-repository head
   type:     git
-  location: http://github.com:nejstastnejsistene/whiskers.git
+  location: http://github.com/nejstastnejsistene/whiskers.git

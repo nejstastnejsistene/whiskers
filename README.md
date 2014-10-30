@@ -1,7 +1,7 @@
 whiskers
 ========
 
-Moustache templates with Template Haskell.
+Mustache templates with Template Haskell.
 
 ```haskell
 {-# LANGUAGE QuasiQuotes #-}

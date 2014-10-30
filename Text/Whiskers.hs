@@ -45,23 +45,28 @@ tokenExp _   (Str x) = return . LitE $ StringL x
 tokenExp env (Var x) = fmap VarE $ fromJust (lookup x env)
 
 parser :: Parser [Token]
-parser = many1 (str <|> var <|> brackets)
+parser = fmap catMaybes $ many1 (var <|> str <|> str')
 
-str :: Parser Token
-str = fmap Str $ many1 (noneOf "{")
-    
-var :: Parser Token
-var = try $ do
+openTag :: Parser ()
+openTag = try $ do
     string "{{"
     spaces
+
+var :: Parser (Maybe Token)
+var = try $ do
+    openTag
     x <- letter
     xs <- many alphaNum
     spaces
     string "}}"
-    return $ Var (x:xs)
+    return (Just (Var (x:xs)))
 
-brackets :: Parser Token
-brackets = do
-    x <- char '{'
-    y <- try (noneOf "{")
-    return $ Str (x:[y])
+str :: Parser (Maybe Token)
+str = try $ do
+    x <- manyTill anyChar (lookAhead openTag)
+    case x of
+        [] -> return Nothing
+        _  -> return (Just (Str x))
+
+str' :: Parser (Maybe Token)
+str' = fmap (Just . Str) (many1 anyChar)

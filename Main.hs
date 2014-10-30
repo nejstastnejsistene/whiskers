@@ -5,5 +5,5 @@ import Text.Whiskers
 main :: IO ()
 main = putStrLn [whiskersFile|README.md|]
   where
-    x = "hello"
-    y = "world"
+    x = "world"
+    y = "whiskers"
